@@ -3,3 +3,4 @@ name = "hearurl"
 version = "0.0.1"
 
 [dependencies]
+url = "1.4.0"
