@@ -31,5 +31,11 @@ fn open_stream() -> io::Result<()> {
 }
 
 fn main() {
-    open_stream();
+    match open_stream() {
+        Ok(_) => {},
+        Err(e) => {
+            writeln!(io::stderr(), "{}", e)
+                .expect("Failed printing to stderr");
+        },
+    }
 }
