@@ -14,7 +14,7 @@ fn open_stream() -> io::Result<()> {
                 println!("{}", url);
             }
             Err(e) => {
-                write!(io::stderr(), "{}", e);
+                write!(io::stderr(), "{}", e)?;
             }
         }
     }
