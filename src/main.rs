@@ -1,6 +1,6 @@
 use std::io::{self, Write};
 use std::io::prelude::*;
-use std::net::{TcpListener, TcpStream};
+use std::net::TcpListener;
 
 fn open_stream() -> io::Result<()> {
     let listener = TcpListener::bind("127.0.0.1:34254")?;
