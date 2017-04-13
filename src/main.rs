@@ -1,4 +1,4 @@
-use std::io;
+use std::io::{self, Write};
 use std::io::prelude::*;
 use std::net::{TcpListener, TcpStream};
 
@@ -13,7 +13,9 @@ fn open_stream() -> io::Result<()> {
 
                 println!("{}", url);
             }
-            Err(e) => {}
+            Err(e) => {
+                write!(io::stderr(), "{}", e);
+            }
         }
     }
 
