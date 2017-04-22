@@ -4,3 +4,6 @@ TODO
 - Command line flag for port
 - Command line flag for browser
 - [maybe] config file to configure browser
+
+2017.04.22:
+- Parse input to ensure it's a URL
