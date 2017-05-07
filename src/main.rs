@@ -8,6 +8,8 @@ use std::io::prelude::*;
 use std::net::TcpListener;
 use std::process::Command;
 
+const DEFAULT_PORT: u16 = 37705;
+
 fn open_stream() -> io::Result<()> {
     let listener = TcpListener::bind("127.0.0.1:34254")?;
 
@@ -68,7 +70,7 @@ fn main() {
 
     let port: u16 = match opt_matches.opt_str("p") {
         Some(p) => p.parse().unwrap(),
-        None => 37705,
+        None => DEFAULT_PORT,
     };
 
     open_stream().unwrap_or_else(|e| {
