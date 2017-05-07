@@ -10,8 +10,10 @@ use std::process::Command;
 
 const DEFAULT_PORT: u16 = 37705;
 
-fn open_stream() -> io::Result<()> {
-    let listener = TcpListener::bind("127.0.0.1:34254")?;
+fn open_stream(browser: String, port: u16) -> io::Result<()> {
+    let listener = TcpListener::bind(
+        format!("127.0.0.1:{}", port)
+    )?;
 
     for stream in listener.incoming() {
         match stream {
@@ -21,7 +23,7 @@ fn open_stream() -> io::Result<()> {
 
                 Command::new("open")
                     .arg("-a")
-                    .arg("Opera")
+                    .arg(&browser)
 
                     // Trim the trailing newline, otherwise this doesn't
                     // work
@@ -73,7 +75,7 @@ fn main() {
         None => DEFAULT_PORT,
     };
 
-    open_stream().unwrap_or_else(|e| {
+    open_stream(browser, port).unwrap_or_else(|e| {
         writeln!(io::stderr(), "{}", e)
             .expect("Failed printing to stderr");
     });
