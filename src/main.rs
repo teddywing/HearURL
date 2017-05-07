@@ -45,6 +45,7 @@ fn main() {
 
     let mut opts = Options::new();
     opts.optopt("b", "browser", "set browser", "BROWSER");
+    opts.optopt("p", "port", "set port number", "PORT");
     opts.optflag("h", "help", "print this help menu");
 
     let opt_matches = match opts.parse(&args[1..]) {
@@ -63,6 +64,11 @@ fn main() {
             print_usage(opts);
             return
         },
+    };
+
+    let port: u16 = match opt_matches.opt_str("p") {
+        Some(p) => p.parse().unwrap(),
+        None => 37705,
     };
 
     open_stream().unwrap_or_else(|e| {
