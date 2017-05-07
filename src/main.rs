@@ -1,3 +1,8 @@
+extern crate getopts;
+
+use getopts::Options;
+
+use std::env;
 use std::io::{self, Write};
 use std::io::prelude::*;
 use std::net::TcpListener;
@@ -30,7 +35,27 @@ fn open_stream() -> io::Result<()> {
     Ok(())
 }
 
+fn print_usage(opts: Options) {
+    let brief = "Usage: hearurl -b BROWSER";
+    print!("{}", opts.usage(&brief));
+}
+
 fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let mut opts = Options::new();
+    opts.optflag("h", "help", "print this help menu");
+
+    let opt_matches = match opts.parse(&args[1..]) {
+        Ok(m) => m,
+        Err(e) => panic!(e.to_string()),
+    };
+
+    if opt_matches.opt_present("h") {
+        print_usage(opts);
+        return
+    }
+
     open_stream().unwrap_or_else(|e| {
         writeln!(io::stderr(), "{}", e)
             .expect("Failed printing to stderr");
