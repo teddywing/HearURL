@@ -57,11 +57,12 @@ fn main() {
         return
     }
 
-    let browser = if opt_matches.opt_present("b") {
-        opt_matches.opt_str("b")
-    } else {
-        print_usage(opts);
-        return
+    let browser = match opt_matches.opt_str("b") {
+        Some(b) => b,
+        None => {
+            print_usage(opts);
+            return
+        },
     };
 
     open_stream().unwrap_or_else(|e| {
