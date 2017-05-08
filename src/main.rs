@@ -33,7 +33,7 @@ fn open_stream(browser: String, port: u16) -> Result<(), Box<Error>> {
                     .spawn()?;
             }
             Err(e) => {
-                write!(io::stderr(), "{}", e)?;
+                writeln!(io::stderr(), "{}", e)?;
             }
         }
     }
