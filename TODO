@@ -6,4 +6,4 @@ v Command line flag for browser (2017.05.07)
 - [maybe] config file to configure browser
 
 2017.04.22:
-- Parse input to ensure it's a URL
+v Parse input to ensure it's a URL (2017.05.08)
