@@ -1,8 +1,11 @@
 extern crate getopts;
+extern crate url;
 
 use getopts::Options;
+use url::Url;
 
 use std::env;
+use std::error::Error;
 use std::io::{self, Write};
 use std::io::prelude::*;
 use std::net::TcpListener;
@@ -10,7 +13,7 @@ use std::process::Command;
 
 const DEFAULT_PORT: u16 = 37705;
 
-fn open_stream(browser: String, port: u16) -> io::Result<()> {
+fn open_stream(browser: String, port: u16) -> Result<(), Box<Error>> {
     let listener = TcpListener::bind(
         format!("127.0.0.1:{}", port)
     )?;
@@ -21,13 +24,12 @@ fn open_stream(browser: String, port: u16) -> io::Result<()> {
                 let mut url = String::new();
                 stream.read_to_string(&mut url)?;
 
+                let url = Url::parse(url.as_str())?;
+
                 Command::new("open")
                     .arg("-a")
                     .arg(&browser)
-
-                    // Trim the trailing newline, otherwise this doesn't
-                    // work
-                    .arg(&url.trim_right())
+                    .arg(&url.as_str())
                     .spawn()?;
             }
             Err(e) => {
