@@ -73,7 +73,7 @@ fn main() {
     };
 
     let port: u16 = match opt_matches.opt_str("p") {
-        Some(p) => p.parse().unwrap(),
+        Some(p) => p.parse().expect("Unable to parse specified port"),
         None => DEFAULT_PORT,
     };
 
