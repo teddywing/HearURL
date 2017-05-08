@@ -5,7 +5,6 @@ use getopts::Options;
 use url::Url;
 
 use std::env;
-use std::error::Error;
 use std::io::{self, Write};
 use std::io::prelude::*;
 use std::net::TcpListener;
@@ -13,7 +12,7 @@ use std::process::Command;
 
 const DEFAULT_PORT: u16 = 37705;
 
-fn open_stream(browser: String, port: u16) -> Result<(), Box<Error>> {
+fn open_stream(browser: String, port: u16) -> io::Result<()> {
     let listener = TcpListener::bind(
         format!("127.0.0.1:{}", port)
     )?;
@@ -22,15 +21,24 @@ fn open_stream(browser: String, port: u16) -> Result<(), Box<Error>> {
         match stream {
             Ok(mut stream) => {
                 let mut url = String::new();
-                stream.read_to_string(&mut url)?;
+                match stream.read_to_string(&mut url) {
+                    Ok(_) => {},
+                    Err(e) => writeln!(io::stderr(), "{}", e)?,
+                };
 
-                let url = Url::parse(url.as_str())?;
-
-                Command::new("open")
-                    .arg("-a")
-                    .arg(&browser)
-                    .arg(&url.as_str())
-                    .spawn()?;
+                match Url::parse(url.as_str()) {
+                    Ok(url) => {
+                        match Command::new("open")
+                            .arg("-a")
+                            .arg(&browser)
+                            .arg(&url.as_str())
+                            .spawn() {
+                            Ok(_) => {},
+                            Err(e) => writeln!(io::stderr(), "{}", e)?,
+                        };
+                    },
+                    Err(e) => writeln!(io::stderr(), "{}", e)?,
+                };
             }
             Err(e) => {
                 writeln!(io::stderr(), "{}", e)?;
