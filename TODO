@@ -1,8 +1,8 @@
 TODO
 
 2017.04.13:
-- Command line flag for port
-- Command line flag for browser
+v Command line flag for port (2017.05.07)
+v Command line flag for browser (2017.05.07)
 - [maybe] config file to configure browser
 
 2017.04.22:
