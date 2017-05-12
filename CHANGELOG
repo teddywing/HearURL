@@ -1,5 +1,14 @@
 CHANGELOG
 =========
 
+v0.1.0 (2017-05-12):
+	Initial public release.
+
+	+ Add `-b` command line option to set a browser.
+	+ Add `-p` command line option to customise the TCP port the program
+	  listens on.
+	* Only send input to the browser if it's a valid URL.
+	* Fix cases where the program would terminate on invalid input.
+
 v0.0.1 (2017-04-22):
 	* Pre-release. Initial working version.
